@@ -49,12 +49,12 @@ The robot follows a reactive navigation strategy. It continuously senses the env
 - MPU6050 IMU sensor
 - NEO-6M GPS module
 - SD card module
+- HuskyLens AI camera
 - L298N motor driver
 - DC motors
 - Robot chassis
 - Battery pack
 - IR sensors
-
 ---
 
 ## Navigation Logic
@@ -70,7 +70,24 @@ The robot uses a simple sense-decide-act loop:
 7. The process repeats continuously.
 
 ---
+## Arduino Implementation
 
+The main Arduino code is provided in `robot_navigation.ino`.
+
+The code integrates:
+
+- Ultrasonic distance sensing using `NewPing`
+- Servo-based directional scanning
+- DC motor control
+- MPU6050 IMU readings
+- GPS coordinate logging using `TinyGPS++`
+- SD-card logging to `Log.csv`
+- HuskyLens object detection
+- Reactive obstacle avoidance
+
+When the robot detects an obstacle within 50 cm, it stops, checks the object using HuskyLens, logs the GPS and IMU data, scans right and left using the servo-mounted ultrasonic sensor, and turns toward the direction with more free space.
+
+---
 ## System Pipeline
 
 1. Read ultrasonic distance
@@ -164,6 +181,7 @@ Wokwi was used to validate the Arduino hardware design, wiring, sensor connectio
 ## Repository Contents
 
 - README.md
+- robot_navigation.ino
 - Webots Maze Navigation.wbt
 - WokwiHardware.zip
 - Autonomous_Arduino_Based_Exploration_Robot_for_Confined_Maze_Navigation.pdf
@@ -201,7 +219,25 @@ Wokwi was used to validate the Arduino hardware design, wiring, sensor connectio
 5. Start the robot and observe autonomous navigation.
 
 ---
+### Arduino Code
 
+1. Open `robot_navigation.ino` in the Arduino IDE.
+2. Install the required libraries:
+   - NewPing
+   - Servo
+   - SD
+   - SPI
+   - TinyGPS++
+   - SoftwareSerial
+   - Wire
+   - MPU6050
+   - HuskyLens
+3. Select the Arduino Uno board.
+4. Connect the sensors and motor driver according to the pin configuration in the code.
+5. Upload the code to the Arduino Uno.
+6. Open the Serial Monitor at 9600 baud to view distance, GPS, IMU, SD-card, and HuskyLens messages.
+
+---   
 ## Technologies Used
 
 - Arduino
